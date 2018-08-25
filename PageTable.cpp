@@ -4,23 +4,25 @@
 
 #include "PageTable.h"
 
-int PageTable::search(int address) {
-    int pt1 = AddressHandler::getPT1(address);
-    auto pt2Container = PT1[pt1];
-    if (pt2Container == nullptr) {
-        pt2Container = new std::map<int, int>;
-        PT1[pt1] = pt2Container;
+p_size PageTable::search(p_size address) {
+    accessNum++;
+    p_size pt1 = AddressHandler::getPT1(address);
+
+    if (PT1.count(pt1)) {
+        PT1[pt1] = new std::map<p_size, p_size>;
     }
+    auto pt2Container = *(PT1[pt1]);
     int pt2 = AddressHandler::getPT2(address);
-    auto pageFrame = (*pt2Container)[pt2];
-    if (pageFrame == 0) {
-        // TO-DO: Adapt with MainMemory to allocate new page frame.
+
+    if (pt2Container.count(pt2)) {
+        hitNum++;
+        return pt2Container[pt2];
     } else {
-        return pageFrame;
+
     }
 }
 
-void PageTable::remove(int pageFrame) {
+void PageTable::remove(p_size pageFrame) {
     auto pt1Iter = PT1.begin();
     while (pt1Iter != PT1.end()) {
         auto pt2Container = *((*pt1Iter).second);
@@ -34,4 +36,10 @@ void PageTable::remove(int pageFrame) {
         }
         pt1Iter++;
     }
+}
+
+void PageTable::print(std::string filename) {
+//    std::ofstream file;
+//    file.open(filename, std::ios::out | std::ios::trunc);
+//    file << "Level 1 Page Table: " << std::endl;
 }

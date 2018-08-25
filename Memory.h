@@ -5,17 +5,24 @@
 #ifndef VIRTUAL_MEMORY_MANAGER_MEMORY_H
 #define VIRTUAL_MEMORY_MANAGER_MEMORY_H
 
-#include <queue>
+#include "Config.h"
+#include "Process.h"
+#include <list>
+
+struct MemoryItem {
+    Process* process;
+    p_size pageFrame;
+};
 
 class Memory {
 private:
-    static std::queue<int> memory;
+    static std::list<MemoryItem> memory;
     static int accessNum;
     static int hitNum;
 
 public:
-    static bool search();
-    static void allocate(int pageFrame);
+    static bool search(p_size pageFrame);
+    static const p_size allocate(Process& process, p_size pageFrame);
 };
 
 

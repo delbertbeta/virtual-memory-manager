@@ -11,8 +11,8 @@
 #include <iterator>
 
 struct TLBItem {
-    int VPN;
-    int PFN;
+    p_size VPN;
+    p_size PFN;
 };
 
 class TLB {
@@ -24,8 +24,8 @@ private:
 public:
     static int getAccessNum();
     static int getHitNum();
-    static int search(int address);
-    static void insert(int address, int pageFrame);
+    static const TLBItem* const search(p_size address);
+    static void insert(p_size address, p_size pageFrame);
     static void reset();
 
 };

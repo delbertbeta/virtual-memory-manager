@@ -9,10 +9,10 @@
 
 class AddressHandler {
 public:
-    static int getPT1(int address);
-    static int getPT2(int address);
-    static int getVP(int address);
-    static int getOffset(int address);
+    static p_size getPT1(p_size address);
+    static p_size getPT2(p_size address);
+    static p_size getVP(p_size address);
+    static p_size getOffset(p_size address);
 };
 
 

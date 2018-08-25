@@ -8,16 +8,24 @@
 int Process::count = 0;
 
 Process::Process (int neededMemoryInKB) {
+    this->id = count;
     int dividedMemorySize = neededMemoryInKB / 2;
-    int pt2BitNeeded = log(dividedMemorySize / 8) / log(2);
-    int pt1 = 0 + (this->count << (OFFSET + PT2));
     this->lowRange = {
-            pt1,
-            pt1 + (((int)pow(2, pt2BitNeeded) - 1) << OFFSET)
+            0,
+            (dividedMemorySize << OFFSET) | ((1 << OFFSET) - 1)
     };
-    pt1 = 0 + ((0xf - this->count) << (OFFSET + PT2));
+    int upper = std::numeric_limits<int>::max();
     this->highRange = {
-            pt1,
-            pt1 + (((int)pow(2, pt2BitNeeded) - 1) << OFFSET)
+            upper - this->lowRange.upperBound,
+            upper - this->lowRange.lowerBound
     };
+    count++;
+}
+
+const int Process::getId() const {
+    return this->id;
+}
+
+void Process::modifyPT(int pageFrame) {
+    pageTable.remove(pageFrame);
 }

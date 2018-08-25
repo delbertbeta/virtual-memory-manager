@@ -4,16 +4,35 @@
 
 #include "Memory.h"
 
-std::queue<int> Memory::memory;
+std::list<MemoryItem> Memory::memory;
 
 int Memory::accessNum = 0;
 int Memory::hitNum = 0;
 
-bool Memory::search() {
+bool Memory::search(p_size pageFrame) {
+    accessNum++;
+    for (auto item : memory) {
+        if (item.pageFrame == pageFrame) {
+            hitNum++;
+            return true;
+        }
+    }
     return false;
 }
 
-void Memory::allocate(int pageFrame) {
-
+const p_size Memory::allocate(Process& process, p_size pageFrame) {
+    if (memory.size() < MEMORY_SIZE) {
+        memory.push_back(MemoryItem{
+            &process,
+            (p_size)memory.size() - 1
+        });
+    } else {
+        const auto front = memory.front();
+        front.process->modifyPT(front.pageFrame);
+        memory.pop_front();
+        memory.push_back(MemoryItem{
+            &process,
+            front.pageFrame
+        });
+    }
 }
-

@@ -16,7 +16,7 @@ int TLB::getHitNum() {
     return hitNum;
 }
 
-int TLB::search(int address) {
+const TLBItem* const TLB::search(p_size address) {
     accessNum++;
     int targetVPN = AddressHandler::getVP(address);
     auto iter = TLBContainer.begin();
@@ -26,16 +26,16 @@ int TLB::search(int address) {
             hitNum++;
             iter = TLBContainer.erase(iter);
             TLBContainer.insert(TLBContainer.begin(), item);
-            return item.PFN;
+            return &(*iter);
         }
         iter++;
     }
-    return EMPTY;
+    return nullptr;
 }
 
 
-void TLB::insert(int address, int pageFrame) {
-    int targetVPN = AddressHandler::getVP(address);
+void TLB::insert(p_size address, p_size pageFrame) {
+    p_size targetVPN = AddressHandler::getVP(address);
     if (TLBContainer.size() == TLB_SIZE) {
         TLBContainer.pop_back();
     }
