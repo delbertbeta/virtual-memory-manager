@@ -6,6 +6,8 @@
 #define VIRTUAL_MEMORY_MANAGER_PAGETABLE_H
 
 #include <map>
+#include <iterator>
+#include "AddressHandler.h"
 
 
 class PageTable {
@@ -13,7 +15,8 @@ private:
     std::map< int, std::map< int, int >* > PT1;
 
 public:
-    seach
+    int search(int address);
+    void remove(int pageFrame);
 
 };
 

@@ -28,8 +28,6 @@ public:
     static void insert(int address, int pageFrame);
     static void reset();
 
-public:
-
 };
 
 

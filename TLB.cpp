@@ -4,6 +4,10 @@
 
 #include "TLB.h"
 
+int TLB::accessNum = 0;
+int TLB::hitNum = 0;
+std::vector<TLBItem> TLB::TLBContainer;
+
 int TLB::getAccessNum() {
     return accessNum;
 }
@@ -24,6 +28,7 @@ int TLB::search(int address) {
             TLBContainer.insert(TLBContainer.begin(), item);
             return item.PFN;
         }
+        iter++;
     }
     return EMPTY;
 }
