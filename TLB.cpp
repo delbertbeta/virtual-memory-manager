@@ -12,14 +12,36 @@ int TLB::getHitNum() {
     return hitNum;
 }
 
-int TLB::search() {
-    return 0;
+int TLB::search(int address) {
+    accessNum++;
+    int targetVPN = AddressHandler::getVP(address);
+    auto iter = TLBContainer.begin();
+    while(iter != TLBContainer.end()) {
+        TLBItem item = *iter;
+        if (item.VPN == targetVPN) {
+            hitNum++;
+            iter = TLBContainer.erase(iter);
+            TLBContainer.insert(TLBContainer.begin(), item);
+            return item.PFN;
+        }
+    }
+    return EMPTY;
 }
 
-int TLB::insert() {
-    return 0;
+
+void TLB::insert(int address, int pageFrame) {
+    int targetVPN = AddressHandler::getVP(address);
+    if (TLBContainer.size() == TLB_SIZE) {
+        TLBContainer.pop_back();
+    }
+    TLBContainer.insert(TLBContainer.begin(), TLBItem {
+       targetVPN, pageFrame
+    });
 }
+
 
 void TLB::reset() {
-
+    TLBContainer.clear();
+    accessNum = 0;
+    hitNum = 0;
 }

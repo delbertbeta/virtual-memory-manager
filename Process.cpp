@@ -2,7 +2,7 @@
 // Created by delbertbeta on 18-8-23.
 //
 
-#include "AddressConfig.h"
+#include "Config.h"
 #include "Process.h"
 
 int Process::count = 0;

@@ -5,14 +5,14 @@
 #ifndef VIRTUAL_MEMORY_MANAGER_ADDRESSHANDLER_H
 #define VIRTUAL_MEMORY_MANAGER_ADDRESSHANDLER_H
 
-#include "AddressConfig.h"
+#include "Config.h"
 
 class AddressHandler {
 public:
-    static int getPT1();
-    static int getPT2();
-    static int getPT();
-    static int getOffset();
+    static int getPT1(int address);
+    static int getPT2(int address);
+    static int getVP(int address);
+    static int getOffset(int address);
 };
 
 

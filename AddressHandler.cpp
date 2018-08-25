@@ -4,18 +4,22 @@
 
 #include "AddressHandler.h"
 
-int AddressHandler::getPT1() {
-    return 0;
+int AddressHandler::getPT1(int address) {
+    int result = address >> (OFFSET + PT2);
+    return result;
 }
 
-int AddressHandler::getPT2() {
-    return 0;
+int AddressHandler::getPT2(int address) {
+    int result = (address >> OFFSET) & ((1 << PT2) - 1);
+    return result;
 }
 
-int AddressHandler::getPT() {
-    return 0;
+int AddressHandler::getVP(int address) {
+    int result = (address >> OFFSET);
+    return result;
 }
 
-int AddressHandler::getOffset() {
-    return 0;
+int AddressHandler::getOffset(int address) {
+    int result = (address & ((1 << OFFSET) - 1));
+    return result;
 }
