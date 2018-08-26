@@ -7,17 +7,17 @@
 
 int Process::count = 0;
 
-Process::Process (int neededMemoryInKB) {
+Process::Process (p_size neededMemoryInKB) {
     this->id = count;
-    int dividedMemorySize = neededMemoryInKB / 2;
+    p_size dividedMemorySize = neededMemoryInKB / 2;
     this->lowRange = {
             0,
             (dividedMemorySize << OFFSET) | ((1 << OFFSET) - 1)
     };
-    int upper = std::numeric_limits<int>::max();
+
     this->highRange = {
-            upper - this->lowRange.upperBound,
-            upper - this->lowRange.lowerBound
+            UPPER - this->lowRange.upperBound,
+            UPPER - this->lowRange.lowerBound
     };
     count++;
 }
@@ -26,6 +26,14 @@ const int Process::getId() const {
     return this->id;
 }
 
-void Process::modifyPT(int pageFrame) {
+void Process::modifyPT(p_size pageFrame) {
     pageTable.remove(pageFrame);
+}
+
+int Process::getRound() {
+    return this->round;
+}
+
+void Process::newRound() {
+    this->round++;
 }

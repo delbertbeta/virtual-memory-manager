@@ -8,9 +8,12 @@
 #include <string>
 #include <fstream>
 #include <cstdio>
+#include <sstream>
 
 class FileOperation {
+public:
     static void init(int count);
+    static void writeFile(std::string filename, std::stringstream& content);
 };
 
 

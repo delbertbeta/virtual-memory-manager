@@ -6,8 +6,7 @@
 #define VIRTUAL_MEMORY_MANAGER_RANDOMADDRESSGENERATOR_H
 
 #include <vector>
-#include <cstdlib>
-#include <ctime>
+#include <random>
 #include "Process.h"
 
 using namespace std;
@@ -15,7 +14,7 @@ using namespace std;
 class RandomAddressGenerator {
 
 public:
-    static vector<int> generateAddress(const Process& process);
+    static vector<p_size> generateAddress(const Process& process);
 };
 
 #endif //VIRTUAL_MEMORY_MANAGER_RANDOMADDRESSGENERATOR_H

@@ -11,3 +11,9 @@ void FileOperation::init(int count) {
         remove(("page_table_" + std::to_string(i) + ".txt").c_str());
     }
 }
+
+void FileOperation::writeFile(std::string filename, std::stringstream& content) {
+    std::ofstream file(filename, std::ios::out | std::ios::app);
+    file << content.str() << std::endl;
+    file.close();
+}

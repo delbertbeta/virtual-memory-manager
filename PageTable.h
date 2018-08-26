@@ -8,8 +8,17 @@
 #include <string>
 #include <map>
 #include <iterator>
-#include "Memory.h"
+#include <sstream>
+#include <iomanip>
+#include "FileOperation.h"
 #include "AddressHandler.h"
+
+using namespace std;
+
+struct PageTableResult {
+    bool status;
+    p_size pageFrame;
+};
 
 
 class PageTable {
@@ -19,7 +28,7 @@ private:
     int accessNum = 0;
 
 public:
-    p_size search(p_size address);
+    PageTableResult search(p_size address);
     void remove(p_size pageFrame);
     void print(std::string filename);
 

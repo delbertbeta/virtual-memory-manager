@@ -1,23 +1,31 @@
-#include <iostream>
-#include <iomanip>
-#include <fstream>
-#include <limits>
+#include <vector>
+#include "FileOperation.h"
 #include "Process.h"
+#include "Emulator.h"
 
 using namespace std;
 
 int main(int argc, const char *argv[]) {
 
-    Process process(128 * 1024);
+    vector<Process> processes;
+    processes.emplace_back(Process(1 * 1024),
+                           Process(32 * 1024),
+                           Process(64 * 1024),
+                           Process(128 * 1024),
+                           Process(256 * 1024));
 
-    cout << (0 == nullptr) << endl;
+    FileOperation::init(processes.size());
 
-    cout << "0x" << hex << setw(8) << setfill('0') << std::numeric_limits<int>::max() << endl;
+    for (int i = 0; i < 3; i++) {
+        for (auto process : processes) {
+            Emulator::run(process);
+        }
+    }
 
-    cout << "0x" << hex << setw(8) << setfill('0') << process.lowRange.lowerBound << " 0x" << hex << setw(8)
-         << setfill('0') << process.lowRange.upperBound << endl;
-    cout << "0x" << hex << setw(8) << setfill('0') << process.highRange.lowerBound << " 0x" << hex << setw(8)
-         << setfill('0') << process.highRange.upperBound << endl;
+//    cout << "0x" << hex << setw(8) << setfill('0') << process.lowRange.lowerBound << " 0x" << hex << setw(8)
+//         << setfill('0') << process.lowRange.upperBound << endl;
+//    cout << "0x" << hex << setw(8) << setfill('0') << process.highRange.lowerBound << " 0x" << hex << setw(8)
+//         << setfill('0') << process.highRange.upperBound << endl;
 
     return 0;
 }

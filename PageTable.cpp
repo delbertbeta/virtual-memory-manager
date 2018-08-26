@@ -4,7 +4,7 @@
 
 #include "PageTable.h"
 
-p_size PageTable::search(p_size address) {
+PageTableResult PageTable::search(p_size address) {
     accessNum++;
     p_size pt1 = AddressHandler::getPT1(address);
 
@@ -16,9 +16,15 @@ p_size PageTable::search(p_size address) {
 
     if (pt2Container.count(pt2)) {
         hitNum++;
-        return pt2Container[pt2];
+        return PageTableResult{
+            true,
+            pt2Container[pt2]
+        };
     } else {
-
+        return PageTableResult {
+            false,
+            0
+        };
     }
 }
 
@@ -39,7 +45,22 @@ void PageTable::remove(p_size pageFrame) {
 }
 
 void PageTable::print(std::string filename) {
-//    std::ofstream file;
-//    file.open(filename, std::ios::out | std::ios::trunc);
-//    file << "Level 1 Page Table: " << std::endl;
+    std::stringstream content;
+    content << "Level 1 Page Table: " << endl;
+    content  << "PT1\tPointer To PT2" << endl;
+    for(auto item : PT1) {
+        content << hex  << item.first << "\t" << hex << item.second << endl;
+    }
+
+    content << endl;
+    content << "Level 2 Page Table: " << endl;
+
+    for(auto item : PT1) {
+        content << hex << item.second << ": " << endl;
+        for (auto pt2 : *(item.second)) {
+            content << hex << pt2.first << "\t" << hex << pt2.second << endl;
+        }
+        content << "\n\n" << endl;
+    }
+    FileOperation::writeFile(filename, content);
 }

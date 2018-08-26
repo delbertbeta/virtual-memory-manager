@@ -20,13 +20,16 @@ class Process {
     static int count;
     PageTable pageTable;
     int id;
+    int round = 0;
 
 public:
-    Process(int neededMemoryInKB);
+    Process(p_size neededMemoryInKB);
     const int getId() const;
     void modifyPT(p_size pageFrame);
     Range lowRange;
     Range highRange;
+    int getRound();
+    void newRound();
 };
 
 #endif //VIRTUAL_MEMORY_MANAGER_PROCESS_H
