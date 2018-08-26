@@ -20,12 +20,13 @@ bool Memory::search(p_size pageFrame) {
     return false;
 }
 
-const p_size Memory::allocate(Process& process, p_size pageFrame) {
+const p_size Memory::allocate(Process& process) {
     if (memory.size() < MEMORY_SIZE) {
         memory.push_back(MemoryItem{
             &process,
             (p_size)memory.size() - 1
         });
+        return (p_size)memory.size() - 1;
     } else {
         const auto front = memory.front();
         front.process->modifyPT(front.pageFrame);
@@ -34,5 +35,6 @@ const p_size Memory::allocate(Process& process, p_size pageFrame) {
             &process,
             front.pageFrame
         });
+        return front.pageFrame;
     }
 }

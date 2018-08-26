@@ -26,11 +26,16 @@ private:
     std::map< p_size, std::map< p_size, p_size >* > PT1;
     int hitNum = 0;
     int accessNum = 0;
+public:
+    int getHitNum() const;
+
+    int getAccessNum() const;
 
 public:
     PageTableResult search(p_size address);
     void remove(p_size pageFrame);
-    void print(std::string filename);
+    void print(std::string filename) const;
+    void insertOrModify(p_size address, p_size pageFrame);
 
 };
 

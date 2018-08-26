@@ -17,10 +17,17 @@ struct Range {
 };
 
 class Process {
+private:
     static int count;
     PageTable pageTable;
+public:
+    const PageTable &getPageTable() const;
+
+private:
     int id;
     int round = 0;
+    int pageHit = 0;
+    int pageAccess = 0;
 
 public:
     Process(p_size neededMemoryInKB);
@@ -30,6 +37,10 @@ public:
     Range highRange;
     int getRound();
     void newRound();
+    int getPageHit() const;
+    int getPageAccess() const;
+    int addPageHit();
+    int addPageAccess();
 };
 
 #endif //VIRTUAL_MEMORY_MANAGER_PROCESS_H

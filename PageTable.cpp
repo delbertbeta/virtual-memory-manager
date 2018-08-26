@@ -11,6 +11,7 @@ PageTableResult PageTable::search(p_size address) {
     if (PT1.count(pt1)) {
         PT1[pt1] = new std::map<p_size, p_size>;
     }
+    auto debug = PT1[pt1];
     auto pt2Container = *(PT1[pt1]);
     int pt2 = AddressHandler::getPT2(address);
 
@@ -44,7 +45,7 @@ void PageTable::remove(p_size pageFrame) {
     }
 }
 
-void PageTable::print(std::string filename) {
+void PageTable::print(std::string filename) const {
     std::stringstream content;
     content << "Level 1 Page Table: " << endl;
     content  << "PT1\tPointer To PT2" << endl;
@@ -63,4 +64,24 @@ void PageTable::print(std::string filename) {
         content << "\n\n" << endl;
     }
     FileOperation::writeFile(filename, content);
+}
+
+void PageTable::insertOrModify(p_size address, p_size pageFrame) {
+    p_size pt1 = AddressHandler::getPT1(address);
+
+    if (PT1.count(pt1)) {
+        PT1[pt1] = new std::map<p_size, p_size>;
+    }
+    auto pt2Container = *(PT1[pt1]);
+    int pt2 = AddressHandler::getPT2(address);
+
+    pt2Container[pt2] = pageFrame;
+}
+
+int PageTable::getHitNum() const {
+    return hitNum;
+}
+
+int PageTable::getAccessNum() const {
+    return accessNum;
 }

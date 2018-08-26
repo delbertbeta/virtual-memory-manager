@@ -22,7 +22,7 @@ private:
 
 public:
     static bool search(p_size pageFrame);
-    static const p_size allocate(Process& process, p_size pageFrame);
+    static const p_size allocate(Process& process);
 };
 
 

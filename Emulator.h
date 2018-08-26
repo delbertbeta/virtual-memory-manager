@@ -5,6 +5,8 @@
 #ifndef VIRTUAL_MEMORY_MANAGER_EMULATOR_H
 #define VIRTUAL_MEMORY_MANAGER_EMULATOR_H
 
+#include "TLB.h"
+#include "Memory.h"
 #include "Process.h"
 #include "RandomAddressGenerator.h"
 #include "FileOperation.h"

@@ -37,3 +37,25 @@ int Process::getRound() {
 void Process::newRound() {
     this->round++;
 }
+
+int Process::getPageHit() const {
+    return pageHit;
+}
+
+int Process::getPageAccess() const {
+    return pageAccess;
+}
+
+int Process::addPageHit() {
+    pageHit++;
+    return pageHit;
+}
+
+int Process::addPageAccess() {
+    pageAccess++;
+    return pageAccess;
+}
+
+const PageTable &Process::getPageTable() const {
+    return pageTable;
+}
