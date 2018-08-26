@@ -13,7 +13,7 @@
 class FileOperation {
 public:
     static void init(int count);
-    static void writeFile(std::string filename, std::stringstream& content);
+    static void writeFile(std::string& filename, std::stringstream& content);
 };
 
 

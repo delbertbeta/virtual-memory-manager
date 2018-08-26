@@ -20,10 +20,6 @@ class Process {
 private:
     static int count;
     PageTable pageTable;
-public:
-    const PageTable &getPageTable() const;
-
-private:
     int id;
     int round = 0;
     int pageHit = 0;
@@ -41,6 +37,8 @@ public:
     int getPageAccess() const;
     int addPageHit();
     int addPageAccess();
+    PageTable* getPageTable();
+
 };
 
 #endif //VIRTUAL_MEMORY_MANAGER_PROCESS_H

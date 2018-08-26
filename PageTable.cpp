@@ -7,14 +7,12 @@
 PageTableResult PageTable::search(p_size address) {
     accessNum++;
     p_size pt1 = AddressHandler::getPT1(address);
-
-    if (PT1.count(pt1)) {
+    if (!PT1.count(pt1)) {
         PT1[pt1] = new std::map<p_size, p_size>;
     }
-    auto debug = PT1[pt1];
     auto pt2Container = *(PT1[pt1]);
     int pt2 = AddressHandler::getPT2(address);
-
+    auto debug = pt2Container.count(pt2);
     if (pt2Container.count(pt2)) {
         hitNum++;
         return PageTableResult{
@@ -45,12 +43,12 @@ void PageTable::remove(p_size pageFrame) {
     }
 }
 
-void PageTable::print(std::string filename) const {
+void PageTable::print(std::string& filename) const {
     std::stringstream content;
     content << "Level 1 Page Table: " << endl;
     content  << "PT1\tPointer To PT2" << endl;
     for(auto item : PT1) {
-        content << hex  << item.first << "\t" << hex << item.second << endl;
+        content << "0x" << setfill('0') << setw(2) << hex << item.first << "\t" << "0x" << hex << item.second << endl;
     }
 
     content << endl;
@@ -58,8 +56,10 @@ void PageTable::print(std::string filename) const {
 
     for(auto item : PT1) {
         content << hex << item.second << ": " << endl;
-        for (auto pt2 : *(item.second)) {
-            content << hex << pt2.first << "\t" << hex << pt2.second << endl;
+        content << "PT2\tPage Frame" << endl;
+        auto pt2Container = *item.second;
+        for (auto pt2 : pt2Container) {
+            content << "0x" << setfill('0') << setw(ceil(PT2 / 4.0)) << hex << pt2.first << "\t" << "0x" << setw(ceil(PF_SIZE / 4.0)) << hex << pt2.second << endl;
         }
         content << "\n\n" << endl;
     }
@@ -72,10 +72,10 @@ void PageTable::insertOrModify(p_size address, p_size pageFrame) {
     if (PT1.count(pt1)) {
         PT1[pt1] = new std::map<p_size, p_size>;
     }
-    auto pt2Container = *(PT1[pt1]);
+
     int pt2 = AddressHandler::getPT2(address);
 
-    pt2Container[pt2] = pageFrame;
+    (PT1[pt1])->insert(pair<p_size, p_size>(pt2, pageFrame));
 }
 
 int PageTable::getHitNum() const {

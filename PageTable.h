@@ -10,6 +10,7 @@
 #include <iterator>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
 #include "FileOperation.h"
 #include "AddressHandler.h"
 
@@ -34,7 +35,7 @@ public:
 public:
     PageTableResult search(p_size address);
     void remove(p_size pageFrame);
-    void print(std::string filename) const;
+    void print(std::string& filename) const;
     void insertOrModify(p_size address, p_size pageFrame);
 
 };

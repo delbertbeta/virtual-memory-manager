@@ -14,11 +14,12 @@ void Emulator::run(Process &process) {
         s << "0x" << hex << setw(8) << setfill('0') << address << endl;
     }
     s << endl;
-    FileOperation::writeFile("addr_seq_" + to_string(process.getId()) + ".txt", s);
+    string filename = "addr_seq_" + to_string(process.getId()) + ".txt";
+    FileOperation::writeFile(filename, s);
 
-    s.clear();
+    s.str("");
     s << "Round " << process.getRound() << ": " << endl;
-    s << "Address\tVP Number\tPF Number\tTLB hit/no hit\tPT hit/no hit";
+    s << "Address\tVP Number\tPF Number\tTLB hit/no hit\tPT hit/no hit" << endl;
 
     // Clear TLB
     TLB::reset();
@@ -30,14 +31,14 @@ void Emulator::run(Process &process) {
         process.addPageAccess();
         auto tlbResult = TLB::search(address);
         if (tlbResult == nullptr) {
-            auto ptResult = pageTable.search(address);
+            auto ptResult = pageTable->search(address);
             if (ptResult.status) {
                 process.addPageHit();
                 TLB::insert(address, ptResult.pageFrame);
                 pageFrame = ptResult.pageFrame;
             } else {
                 const p_size newPageFrame = Memory::allocate(process);
-                pageTable.insertOrModify(address, newPageFrame);
+                pageTable->insertOrModify(address, newPageFrame);
                 TLB::insert(address, newPageFrame);
                 pageFrame = newPageFrame;
             }
@@ -47,12 +48,12 @@ void Emulator::run(Process &process) {
             pageFrame = tlbResult->PFN;
         }
         s << "0x" << hex << setw(8) << setfill('0') << address << "\t"
-            << hex << AddressHandler::getVP(address) << "\t" << pageFrame << "\t"
-            << TLB::getAccessNum() - TLB::getHitNum() << "/" << TLB::getHitNum() << "\t"
-            << pageTable.getAccessNum() - pageTable.getHitNum() << "/" << pageTable.getHitNum() << endl;
+             << "0x" << setw(ceil((PT1+PT2) / 4.0)) << AddressHandler::getVP(address) << "\t" << "0x" << setw(ceil(PF_SIZE/4.0)) << pageFrame << "\t"
+            << dec << TLB::getHitNum() << "/" << TLB::getAccessNum() - TLB::getHitNum() << "\t"
+            << pageTable->getHitNum() << "/" << pageTable->getAccessNum() - pageTable->getHitNum() << endl;
     }
 
     s << endl;
-
-    FileOperation::writeFile("visit_seq_" + to_string(process.getId()) + ".txt", s);
+    filename = "visit_seq_" + to_string(process.getId()) + ".txt";
+    FileOperation::writeFile(filename, s);
 }

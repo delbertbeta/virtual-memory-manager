@@ -12,7 +12,7 @@ void FileOperation::init(int count) {
     }
 }
 
-void FileOperation::writeFile(std::string filename, std::stringstream& content) {
+void FileOperation::writeFile(std::string& filename, std::stringstream& content) {
     std::ofstream file(filename, std::ios::out | std::ios::app);
     file << content.str() << std::endl;
     file.close();

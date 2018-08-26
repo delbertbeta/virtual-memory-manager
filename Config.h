@@ -13,6 +13,7 @@ const short PT1 = 4;
 const short PT2 = 15;
 const short OFFSET = 13;
 const short TLB_SIZE = 16;
+const short PF_SIZE = 13;
 const int MEMORY_SIZE = 32 * 1024 / 8;
 const p_size UPPER = std::numeric_limits<p_size>::max();
 

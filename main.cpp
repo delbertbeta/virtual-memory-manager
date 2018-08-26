@@ -17,16 +17,18 @@ int main(int argc, const char *argv[]) {
     FileOperation::init(processes.size());
 
     for (int i = 0; i < 3; i++) {
-        for (auto process : processes) {
-            Emulator::run(process);
+        for (int j = 0; j < processes.size(); j++) {
+            Emulator::run(processes[j]);
         }
     }
 
     for (auto process : processes) {
         stringstream s;
-        s << "Page Fault Rate: " << setprecision(2) << fixed << (1 - process.getPageAccess()/process.getPageHit()) << endl;
-        FileOperation::writeFile("visit_seq_" + to_string(process.getId()) + ".txt", s);
-        process.getPageTable().print("page_table_" + to_string(process.getId()) + ".txt");
+        s << "Page Fault Rate: " << setprecision(2) << fixed << (1 - (double)(process.getPageAccess()/process.getPageHit())) << endl;
+        string filename =  "visit_seq_" + to_string(process.getId()) + ".txt";
+        FileOperation::writeFile(filename, s);
+        filename = "page_table_" + to_string(process.getId()) + ".txt";
+        process.getPageTable()->print(filename);
     }
 
 //    cout << "0x" << hex << setw(8) << setfill('0') << process.lowRange.lowerBound << " 0x" << hex << setw(8)

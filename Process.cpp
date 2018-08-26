@@ -56,6 +56,6 @@ int Process::addPageAccess() {
     return pageAccess;
 }
 
-const PageTable &Process::getPageTable() const {
-    return pageTable;
+PageTable* Process::getPageTable() {
+    return &pageTable;
 }
