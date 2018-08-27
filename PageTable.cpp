@@ -69,7 +69,7 @@ void PageTable::print(std::string& filename) const {
 void PageTable::insertOrModify(p_size address, p_size pageFrame) {
     p_size pt1 = AddressHandler::getPT1(address);
 
-    if (PT1.count(pt1)) {
+    if (!PT1.count(pt1)) {
         PT1[pt1] = new std::map<p_size, p_size>;
     }
 

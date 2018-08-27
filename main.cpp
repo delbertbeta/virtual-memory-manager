@@ -24,7 +24,7 @@ int main(int argc, const char *argv[]) {
 
     for (auto process : processes) {
         stringstream s;
-        s << "Page Fault Rate: " << setprecision(2) << fixed << (1 - (double)(process.getPageAccess()/process.getPageHit())) << endl;
+        s << "Page Fault Rate: " << setprecision(2) << fixed << (1.0 - ((double)process.getPageHit()/(double)process.getPageAccess())) << endl;
         string filename =  "visit_seq_" + to_string(process.getId()) + ".txt";
         FileOperation::writeFile(filename, s);
         filename = "page_table_" + to_string(process.getId()) + ".txt";

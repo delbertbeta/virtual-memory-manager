@@ -6,6 +6,7 @@
 #define VIRTUAL_MEMORY_MANAGER_RANDOMADDRESSGENERATOR_H
 
 #include <vector>
+#include <ctime>
 #include <random>
 #include "Process.h"
 
